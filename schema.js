@@ -4,7 +4,8 @@ const {
   GraphQLString,
   GraphQLBoolean,
   GraphQLList,
-  GraphQLSchema
+  GraphQLSchema,
+  GraphQLUnionType
 } = require("graphql");
 
 const axios = require("axios");
@@ -18,9 +19,21 @@ const LaunchType = new GraphQLObjectType({
     launch_year: { type: GraphQLString },
     launch_date_local: { type: GraphQLString },
     launch_success: { type: GraphQLBoolean },
-    rocket: { type: RocketType }
+    rocket: { type: RocketType },
+    links: { 
+      type: LinksType
+    },
+    details: {type: GraphQLString}
   })
 });
+
+const LinksType = new GraphQLObjectType({
+  name: "Links",
+  fields: () => ({
+    mission_patch: {type: GraphQLString},
+    flickr_images: {type: GraphQLList(GraphQLString)}
+  })
+})
 
 // Rocket Type
 const RocketType = new GraphQLObjectType({
